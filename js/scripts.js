@@ -3,7 +3,7 @@
 	jQuery(document).ready(function($){	
 		
 		/*-----------------------------------------------------------------------------------*/
-		/*	0. =// OT Google Font Preview
+		/*	0. =// OptionTree Google Font Preview
 		/*-----------------------------------------------------------------------------------*/		
 										
 		jQuery.fn.OptionTreeGoogleFont = function(){				

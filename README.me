@@ -1,0 +1,32 @@
+<h1>OTGoogleFont Google Fonts for OptionTree</h1>
+<p>OTGoogleFont is an Option-Tree addon to add Google Fonts to your OptionTree typography options.</p>
+
+<h2>Features</h2>
+<ul>
+	<li>Google Fonts loaded to OptionTree typography fields.</li>
+	<li>Automatic update of Google Font library once a week (default).</li>
+	<li>Live font preview in OptionTree options menu. No saving or reload needed.</li>
+	<li>Enter any text you like in the textbox to see how your text looks like.</li>
+	<li>Fallback for default fonts, if no Google Fonts are available.</li>
+	<li>Google Fonts are automatically included in front-end, no need to code it in your Theme.</li>
+</ul>
+
+<ul>
+	<li>1. Download the package and make sure OptionTree is installed.(https://github.com/valendesigns/option-tree).</li>
+	<li>2. Copy the content from functions.php to your WordPress theme functions.php file.</li>
+	<li>3. Add your Google Font API key for the variabl $google_font_api_key</li>
+	<li>4. Upload /ot-google-fonts folder to your themes directory.</li>
+	<li>5. Create a typography option at your option set and the addon automatically adds all those Google Font Options.</li>
+	<li>6. Your done!</li>
+</ul>
+
+<h3>How to add thoses styles to a HTML element?</h3>
+<p>In order to apply those styles to HTML elements, you have to use the dynamic.css function of Option-Tree.</p>
+<p>For example if you have a typography field with the ID "font_body" you have to add something like this:</p>
+
+<pre>
+body { {{font_body}} }
+</pre>
+
+<p>This will add all styles to the body which are set for the font_body typography field within your Option-Tree options.</p>
+<p>See the Option-Tree documentation for more information about dynamic.css styles.</p>

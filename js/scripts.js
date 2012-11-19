@@ -7,7 +7,7 @@
 		/*-----------------------------------------------------------------------------------*/		
 										
 		jQuery.fn.OptionTreeGoogleFont = function(){				
-		
+
 			return this.each(function(){
 		
 				if(typeof OT_UI != 'undefined' && OT_UI){ // just double checking if OT_UI is existing			

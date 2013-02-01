@@ -32,3 +32,13 @@ body { {{font_body}} }
 
 <p>This will add all styles to the body which are set for the font_body typography field within your Option-Tree options.</p>
 <p>See the Option-Tree documentation for more information about dynamic.css styles.</p>
+
+<h3>Styles are not applied?</h3>
+<p>If your styles are not applied to your elements added in the dynamic.css please make sure the dynamic.css file from OptionTree is loaded after the main theme style.css file.</p>
+<p>To load the dynamic.css file after the style.css you have to dequeue it and then enqueue it again after your main style.css file like this:</pre>
+
+<pre>
+	 wp_dequeue_style( 'ot-dynamic-dynamic-css' );
+	 wp_enqueue_style( 'main-stylesheet', get_stylesheet_uri() );
+	 wp_enqueue_style( 'ot-dynamic-dynamic-css' );
+</pre>

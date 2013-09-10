@@ -90,7 +90,7 @@ function custom_theme_options() {
   			'section'     => 'expert',
   			'rows'		  => 12,
   			'std'		  => '/* Font-Styles - DO NOT EDIT OR REMOVE THIS VALUES */
-  body { {{font_body}} }'
+  body { {{font-body}} }'
   		),
 
     ) // end of settings

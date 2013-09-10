@@ -41,11 +41,13 @@ if(!function_exists('ot_get_google_font')) :
 				// initialise the session
 				$ch = curl_init();
 
-				// Set the URL
+				// Set the CURL OPTIONS
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($ch, CURLOPT_URL, $fontsSeraliazed );
-
-				// Return the output from the cURL session rather than displaying in the browser.
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_REFERER, $fontsSeraliazed);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
 				//Execute the session, returning the results to $curlout, and close.
 				$curlout = curl_exec($ch);

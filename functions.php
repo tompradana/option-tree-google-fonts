@@ -4,8 +4,8 @@
 	Include the Option-Tree Google Fonts Plugin
 	========================================================================== */
 
-	// load the ot-google-fonts plugin
-	if( function_exists('ot_get_option') ):
+	// load the ot-google-fonts plugin if the loader class is available
+	if( class_exists( 'OT_Loader' ) ):
 
 	  global $ot_options;
 
@@ -24,7 +24,7 @@
 
   	defined('OT_FONT_DEFAULTS') or define('OT_FONT_DEFAULTS', serialize($default_theme_fonts));
   	defined('OT_FONT_API_KEY') or define('OT_FONT_API_KEY', 'AIzaSyBmzfJsfXkXP9PUvwfq53jA1l1YJNxBT4g'); // enter your own Google Font API key here
-  	defined('OT_FONT_CACHE_INTERVAL') or define('OT_FONT_CACHE_INTERVAL', 604800); // Checking once a week for new Fonts. The time interval for the remote XML cache in the database (21600 seconds = 6 hours)
+  	defined('OT_FONT_CACHE_INTERVAL') or define('OT_FONT_CACHE_INTERVAL', 0); // Checking once a week for new Fonts. The time interval for the remote XML cache in the database (21600 seconds = 6 hours)
 
 		// get the OT-Google-Font plugin file
 		include_once( get_template_directory().'/option-tree-google-fonts/ot-google-fonts.php' );

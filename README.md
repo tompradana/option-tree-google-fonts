@@ -1,4 +1,4 @@
-<h1>OTGoogleFont Google Fonts for OptionTree</h1>
+<h1>OTGoogleFont<br> - Google Fonts Library for OptionTree</h1>
 <p>OTGoogleFont is an Option-Tree addon to add Google Fonts to your OptionTree typography options. Option-Tree is a WordPress Plugin created by <a href="http://valendesigns.com/">Derek Herman (valendesign)</a></p>
 
 <h2>Features</h2>

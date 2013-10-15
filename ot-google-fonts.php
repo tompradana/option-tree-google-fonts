@@ -13,7 +13,7 @@
  *
  */
 
-if(!function_exists('ot_get_google_font')) :
+if( !function_exists( 'ot_get_google_font' ) ) :
 
 	function ot_get_google_font($key = false, $interval = 604800 ){
 
@@ -38,58 +38,84 @@ if(!function_exists('ot_get_google_font')) :
 
 				$fontsSeraliazed = 'https://www.googleapis.com/webfonts/v1/webfonts?key='.$api_key;
 
-				// initialise the session
-				$ch = curl_init();
+        // get the Google Fonts from remote URL
+        $google_response = wp_remote_get ( $fontsSeraliazed, array ( 'sslverify' => false ) );
 
-				// Set the CURL OPTIONS
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-				curl_setopt($ch, CURLOPT_URL, $fontsSeraliazed );
-        curl_setopt($ch, CURLOPT_REFERER, $fontsSeraliazed);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // we have no errors, proceed
+        if ( 200 == wp_remote_retrieve_response_code( $google_response ) ) {
 
-				//Execute the session, returning the results to $curlout, and close.
-				$curlout = curl_exec($ch);
+  				// parse the result from Google Font API
+  				$fontArray = json_decode($google_response['body'], true);
 
-				curl_close($ch);
+  				$googleFontArray = array();
 
-				// parse the result from Google Font api
-				$fontArray = json_decode($curlout, true);
+  				// generate the array to store the fonts
+  				foreach($fontArray['items'] as $index => $value){
+  					$_family                               = strtolower( str_replace(' ','_',$value['family']) );
+  					$googleFontArray[$_family]['family']   = $value['family'];
+  					$googleFontArray[$_family]['variants'] = $value['variants'];
+  					$googleFontArray[$_family]['subsets']  = $value['subsets'];
+  				}
 
-				$googleFontArray = array();
+  				if ( is_array($googleFontArray) ) {
 
-				// generate the array to store the fonts
-				foreach($fontArray['items'] as $index => $value){
-					$_family                               = strtolower( str_replace(' ','_',$value['family']) );
-					$googleFontArray[$_family]['family']   = $value['family'];
-					$googleFontArray[$_family]['variants'] = $value['variants'];
-					$googleFontArray[$_family]['subsets']  = $value['subsets'];
-				}
+  					// we got good results, so update the existing fields
+  					update_option( $db_cache_field, $googleFontArray );
+  					update_option( $db_cache_field_last_updated, time() );
+  					update_option( $db_cache_field_themename, $_theme_name );
 
-				if (is_array($googleFontArray)) {
+  				} else {
 
-					// we got good results, so update the existing fields
-					update_option( $db_cache_field, $googleFontArray );
-					update_option( $db_cache_field_last_updated, time() );
-					update_option( $db_cache_field_themename, $_theme_name );
+  					// there are no fields, so add them to the database
+  					add_option( $db_cache_field, $googleFontArray,'', 'no' );
+  					add_option( $db_cache_field_last_updated, time(),'', 'no' );
+  					add_option( $db_cache_field_themename, $_theme_name,'', 'no' );
 
-				} else {
+  				}
 
-					// there are no fields, so add them to the database
-					add_option( $db_cache_field, $googleFontArray,'', 'no' );
-					add_option( $db_cache_field_last_updated, time(),'', 'no' );
-					add_option( $db_cache_field_themename, $_theme_name,'', 'no' );
+  				// get the google font array from options DB
+  				$db_font_array = get_option( $db_cache_field );
 
-				}
+          function notice_new_fonts_added() {
 
-				// get the google font array from options DB
-				$db_font_array = get_option( $db_cache_field );
+        		// Display message
+        		$html =  '<div class="updated"><p>';
+        		$html .= "<strong>Connection to Google Font API successfull.</strong> You can now use the fonts within the theme options panel.";
+        		$html .= '</p></div>';
+
+        		echo $html;
+
+          }
+
+          add_action( 'admin_notices', 'notice_new_fonts_added', 99);
+
+
+        } else {
+
+          function notice_no_connection_possible() {
+
+        		// Display message
+        		$html =  '<div class="error"><p>';
+        		$html .= "Connection to <strong>Google Fonts API</strong> failed. Please try it again later.";
+        		$html .= '</p></div>';
+
+        		echo $html;
+
+          }
+
+          add_action( 'admin_notices', 'msg_no_connection_possible', 99);
+
+          // we are using the already stored fonts
+  				if( is_array($current_fonts) && count($current_fonts) ) {
+  					$db_font_array = $current_fonts;
+  				}
+
+        }
 
 			} else {
 
 				// get the google font array from options DB
-				if($current_fonts != ""){
+				if( is_array($current_fonts) && count($current_fonts) ) {
 					$db_font_array = $current_fonts;
 				}
 
